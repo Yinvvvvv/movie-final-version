@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Query Movies</h1>
+
+<form method="post" action="{{ url_for('query_movies') }}">
+
+    <label>Search Term:</label>
+    <input type="text" name="name" id="search_term" placeholder="Enter movie name">
+
+    <label>actor:</label>
+    <input type="text" name="actor" placeholder="Enter movie actor">
+
+    <label>director:</label>
+    <input type="text" name="director" placeholder="Enter movie director">
+
+    <label>country:</label>
+    <input type="text" name="country" placeholder="Enter movie country">
+
+    <label>data:</label>
+    <input type="date" name="startDate">-<input type="date" name="endDate">
+
+    <label>type:</label>
+    <input type="text" name="type" placeholder="Enter movie type">
+
+    <label>film_format:</label>
+    <input type="text" name="film_format" placeholder="Enter movie film format">
+
+    <label>company:</label>
+    <input type="text" name="company" placeholder="Enter movie company">
+
+    <label>box:</label>
+    <input type="number" name="start_box">-<input type="number" name="end_box">
+
+
+    <!--        {#        <label #}-->
+    <input class="btn" type="submit" name="submit" value="Search">
+</form>
+
+<button id="openModalBtn">Add Movie</button>
+
+<!-- 弹出窗口 -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="addMovieForm" method="post" action="{{url_for('add_movie')}}">
+            <label>Search Term:</label>
+            <input type="text" name="name"  placeholder="Enter movie name">
+
+            <label>actor:</label>
+            <input type="text" name="actor" placeholder="Enter movie actor">
+
+            <label>actor:</label>
+            <input type="text" name="directors" placeholder="Enter movie directors">
+
+            <label>country:</label>
+            <input type="text" name="country" placeholder="Enter movie country">
+
+            <label>release date:</label>
+            <input type="date" name="release_date">
+
+            <label>type:</label>
+            <input type="text" name="type" placeholder="Enter movie type">
+
+            <label>film_format:</label>
+            <input type="text" name="film_format" placeholder="Enter movie film format">
+
+            <label>company:</label>
+            <input type="text" name="company" placeholder="Enter movie company">
+
+            <label>box:</label>
+            <input type="number" name="box">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<h2>Results</h2>
+{% if movies %}
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>country</th>
+        <th>Release Date</th>
+        <th>type</th>
+        <th>film_format</th>
+        <th>company</th>
+        <th>box</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for movie in movies %}
+    <tr>
+        <td>{{ movie.name }}</td>
+        <td>{{ movie.country.split('/')[0] if movie.country else '未知' }}</td>
+        <td width="200">{{ movie.release_date.strftime('%Y-%m-%d') if movie.release_date else 'N/A' }}</td>
+        <td>{{ movie.type }}</td>
+        <td width="200">{{ movie.film_format }}</td>
+        <td>{{ movie.company.split('/')[0] if movie.company else '未知' }}</td>
+        <td>{{ movie.box }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>No movies found.</p>
+{% endif %}
+
+{% endblock %}

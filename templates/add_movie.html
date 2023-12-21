@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Add/Edit Movie</h1>
+    
+    <form method="post" action="{{ url_for('add_movie') }}">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        {{ form.movie_name.label }} {{ form.movie_name }}
+        {{ form.release_date.label }} {{ form.release_date }}
+        {{ form.country.label }} {{ form.country }}
+        {{ form.type.label }} {{ form.type }}
+        {{ form.year.label }} {{ form.year }}
+        <input class="btn" type="submit" name="submit" value="Add/Edit">
+    </form>
+
+    <h2>Existing Movies</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Release Date</th>
+                <th>Country</th>
+                <th>Type</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.movie_name }}</td>
+                    <td>{{ movie.release_date }}</td>
+                    <td>{{ movie.country }}</td>
+                    <td>{{ movie.type }}</td>
+                    <td>{{ movie.year }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

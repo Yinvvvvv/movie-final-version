@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Query Actor</h1>
+
+    <form method="post" action="{{ url_for('query_actor') }}">
+
+
+        <label>actor:</label>
+        <input type="text" name="actor" placeholder="Enter movie actor">
+
+        <label>director:</label>
+        <input type="text" name="director" placeholder="Enter movie director">
+
+        <input class="btn" type="submit" name="submit" value="Search">
+    </form>
+
+
+    <h2>Results</h2>
+    {% if movies %}
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>actors</th>
+                <th>director</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.name }}</td>
+                    <td>{{ movie.actors }}</td>
+                    <td>{{ movie.directors }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No movies found.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Movie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+        }
+        input[type="text"]:focus,
+        input[type="date"]:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+        input[type="submit"] {
+            background-color: #0056b3;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #004494;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Movie</h1>
+    <form method="post" action="{{ url_for('edit_movie') }}">
+
+        <input type="hidden" name="id" value="{{ movie.id }}">
+
+
+        <label for="name">Movie Name:</label><br>
+        <input type="text" id="name" name="name" value="{{ movie.name }}"><br>
+
+        <label for="actors">Actors:</label><br>
+        <input type="text" id="actors" name="actors" value="{{ movie.actors }}"><br>
+        <input type="hidden" name="actors" value="{{ movie.old_actors }}">
+
+        <label for="release_date">Release Date:</label><br>
+        <input type="date" id="release_date" name="release_date" value="{{ movie.release_date }}"><br>
+
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type" value="{{ movie.type }}"><br>
+
+        <label for="directors">Directors:</label><br>
+        <input type="text" id="directors" name="directors" value="{{ movie.directors }}"><br>
+        <input type="hidden" name="directors" value="{{ movie.old_directors }}">
+
+        <label for="box">Box Office:</label><br>
+        <input type="text" id="box" name="box" value="{{ movie.box }}"><br>
+
+        <label for="country">country:</label><br>
+        <input type="text" id="country" name="country" value="{{ movie.country }}"><br>
+
+        <input type="submit" value="Update Movie">
+    </form>
+</body>
+</html>

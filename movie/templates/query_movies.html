@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Query Movies</h1>
+
+    <!-- 显示闪现消息 -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="popup-message" class="popup">
+                {% for category, message in messages %}
+                    <!--按照消息类别显示消息-->
+                    <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- 页面的其余部分 -->
+
+    <form method="post" action="{{ url_for('query_movies') }}">
+
+        <label>Search Term:</label>
+        <input type="text" name="name" id="search_term" placeholder="Enter movie name">
+
+        {#        <label>actor:</label>#}
+        {#        <input type="text" name="actor" placeholder="Enter movie actor">#}
+        {##}
+        {#        <label>director:</label>#}
+        {#        <input type="text" name="director" placeholder="Enter movie director">#}
+
+        <label>country:</label>
+        <input type="text" name="country" placeholder="Enter movie country">
+        <br>
+        <label>data:</label>
+        <input type="date" name="startDate">-<input type="date" name="endDate">
+
+
+        <label>type:</label>
+        <input type="text" name="type" placeholder="Enter movie type">
+
+        <br>
+
+        <label>box:</label>
+        <input type="number" name="start_box">-<input type="number" name="end_box">
+
+
+        <!--        {#        <label #}-->
+        <input class="btn" type="submit" name="submit" value="Search">
+    </form>
+
+    <button id="openModalBtn">Add Movie</button>
+
+    <!-- 弹出窗口 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form method="post" action="{{ url_for('add_movie') }}">
+                <label>Search Term:</label>
+                <input type="text" name="name" placeholder="Enter movie name">
+
+                <br>
+
+                <label>actor:</label>
+                <input type="text" class="input1" name="actor" placeholder="Enter movie actor">
+                <br>
+                <label>directors:</label>
+                <input type="text" name="directors" placeholder="Enter movie directors">
+                <br>
+                <label>country:</label>
+                <input type="text" name="country" placeholder="Enter movie country">
+                <br>
+                <label>release date:</label>
+                <input type="date" name="release_date">
+                <br>
+                <label>type:</label>
+                <input type="text" name="type" placeholder="Enter movie type">
+                <br>
+                <label>box:</label>
+                <input type="number" name="box">
+                <br>
+                <input class="btn" type="submit" name="submit" value="add">
+            </form>
+        </div>
+    </div>
+
+
+    <h2>Results</h2>
+    {% if movies %}
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>country</th>
+                <th>Release Date</th>
+                <th>type</th>
+
+                <th>box</th>
+                <th>operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for movie in movies %}
+                <tr>
+                    <td>{{ movie.name }}</td>
+                    <td>{{ movie.country.split('/')[0] if movie.country else '未知' }}</td>
+                    <td width="200">{{ movie.release_date.strftime('%Y-%m-%d') if movie.release_date else 'N/A' }}</td>
+                    <td>{{ movie.type }}</td>
+                    <td>{{ movie.box }}</td>
+                    <td><a href="{{ url_for('edit_page', movie_id=movie.id) }}" class="btn btn-primary">edit</a></td>
+                    <td><a href="{{ url_for('delete_movie', movie_id=movie.id) }}" class="btn btn-primary">delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No movies found.</p>
+    {% endif %}
+
+{% endblock %}
